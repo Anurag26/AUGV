@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 boolean simulateRoute = true;
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(currentRoute)
-                        .shouldSimulateRoute(simulateRoute)
+                        .shouldSimulateRoute(true)
                         .build();
 // Call this method with Context from within an Activity
                 NavigationLauncher.startNavigation(MainActivity.this, options);
