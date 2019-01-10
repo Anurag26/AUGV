@@ -1,9 +1,10 @@
-### Mainactivity.java:
+Mainactivity.java:
 
+```
 1. The mainactivity class serves as the autonomous mode rc option.
 2. The map features belong to mapbox as opposed to Google maps. 
 3. This class allows a user to drop a pin and trace a route from origin location to destination location.
-
+```
 Why MapBox?
 Mapbox focuses on an open platform and customizable maps by default. It uses OpenStreetMap Data, and integrates back with other open source software and media, in order to liberate customization.
 
