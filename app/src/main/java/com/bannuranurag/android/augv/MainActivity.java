@@ -29,6 +29,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point destinationPosition;
     private Marker destinationMarker;
     private Button startButton;
+    private DirectionsRoute currentRoute;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity ";
 
@@ -64,7 +67,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Launch
+                //Launch navigation
+                //Launch navigation
+                NavigationLauncherOptions options= NavigationLauncherOptions.builder().directionsRoute(currentRoute)
+                        .shouldSimulateRoute(true)
+                        .build();;
+                Log.v(TAG,"Origin "+originPosition+"Destination "+destinationPosition);
+                NavigationLauncher.startNavigation(MainActivity.this, options);
+                Log.v(TAG,"Navigation Options"+options);
+
+
             }
         });
     }
@@ -234,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.e(TAG,"No routes found.");
                 }
 
-                DirectionsRoute currentRoute = response.body().routes().get(0);
+                 currentRoute = response.body().routes().get(0);
                 if(navigationMapRoute!=null){
                     navigationMapRoute.removeRoute();
                 }
@@ -242,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     navigationMapRoute = new NavigationMapRoute(null, mapView, map);
                 }
                 navigationMapRoute.addRoute(currentRoute);
+                Log.v(TAG,"ROUTE:"+navigationMapRoute);
             }
 
             @Override

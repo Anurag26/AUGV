@@ -33,8 +33,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services:12.0.1'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.0.1'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.11.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.13.0'
-    implementation ('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.13.0'){
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.26.0'
+    implementation ('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.26.0'){
         transitive=true
     }
     testImplementation 'junit:junit:4.12'
