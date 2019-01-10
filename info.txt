@@ -1,0 +1,43 @@
+Mainactivity.java:
+
+1. The mainactivity class serves as the autonomous mode rc option.
+2. The map features belong to mapbox as opposed to Google maps. 
+3. This class allows a user to drop a pin and trace a route from origin location to destination location.
+
+Why MapBox?
+Mapbox focuses on an open platform and customizable maps by default. It uses OpenStreetMap Data, and integrates back with other open source software and media, in order to liberate customization.
+
+To use mapbox an access token is procured which helps the enterprise keep a track of total API calls in a day. This is important as it keeps a record of usage bill.
+
+Mapbox provides three easy to use classes:
+1. LocationEngine: A location engine makes it simple to switch between providers without the hassle of including boilerplate inside your code.
+2. LocationComponent:The Location Component provides location awareness to your mobile application. Enabling this component provides a contextual experience to your users by showing an icon representing the users current location. 
+3. Permission Manager: The permission manager is a class which assists with the Android platform defined rules and regulations.
+
+The functioning:
+
+Gradle:
+The necessary dependencies, SDKs, and open-source repos are imported. 
+
+Layout:
+The Parent layout is a constraint layout which is housing a MapBox mapView and a Button.
+The mapView is the map shown on the screen and while the button is paced to assist in Navigation once the route has been charted and accepted.
+
+Backend:
+The code consists of first five stages necessary for the autonomous mode.
+
+Algorithm:
+1. Initialise the map.
+2. Show user location.
+3. Drop Marker on the destination.
+4. Trace the route to the destination.
+5. Start navigation.
+6. Get the instrucions parsed out of JSON.
+7. Encode the instructions and send it to the device.
+8. Drive the vehicle
+
+ 
+Tech-Vocab:
+Dependencies: External Library modules used in the application.	
+SDK: Stands for "Software Development Kit." An SDK is a collection of software used for developing applications for a specific device or operating system. 
+SDKs typically include an integrated development environment (IDE),
