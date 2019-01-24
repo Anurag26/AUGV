@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bannuranurag.android.augv.SharingDataLocation.DataParsing;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
@@ -28,7 +29,6 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-    };
+    }
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean simulateRoute = true;
+                Log.v(TAG,"Origin coord "+ originCoord+"Destinaion coord"+destinationCoord);
+                DataParsing dataParsing= new DataParsing();
+                dataParsing.buildURL(originCoord.getLatitude(),originCoord.getLongitude(),destinationCoord.getLatitude(),destinationCoord.getLongitude());
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(currentRoute)
                         .shouldSimulateRoute(true)
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getRoute(Point origin, Point destination) {
+
         NavigationRoute.builder(this)
                 .accessToken(Mapbox.getAccessToken())
                 .origin(origin)
