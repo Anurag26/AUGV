@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bannuranurag.android.augv.SharingDataLocation.DataParsing;
+import com.bannuranurag.android.augv.SharingDataLocation.JSONTASk;
+import com.bannuranurag.android.augv.SharingDataLocation.routes;
+import com.bannuranurag.android.augv.SharingDataLocation.waypoints;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
@@ -29,6 +32,10 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private NavigationMapRoute navigationMapRoute;
     private Button button;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        //jsontaSk.delegate=this;
+
     }
 
     @Override
@@ -75,8 +85,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 Log.v(TAG,"Origin coord "+ originCoord+"Destinaion coord"+destinationCoord);
                 DataParsing dataParsing= new DataParsing();
-                dataParsing.buildURL(originCoord.getLatitude(),originCoord.getLongitude(),destinationCoord.getLatitude(),destinationCoord.getLongitude());
-                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+               String requestURL= dataParsing.buildURL(originCoord.getLatitude(),originCoord.getLongitude(),destinationCoord.getLatitude(),destinationCoord.getLongitude());
+               Log.v(TAG,"url "+requestURL);
+               JSONTASk jsontaSk= new JSONTASk();
+               jsontaSk.execute(requestURL);
+               NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(currentRoute)
                         .shouldSimulateRoute(true)
                         .build();
@@ -230,4 +243,54 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
 
     }
+
+//    @Override
+//    public void processFinish(String output) {
+//        Log.v(TAG,"OUTPUTJSON"+output);
+//        try {
+//
+//            JSONObject obj = new JSONObject(output);
+//            wayPoints.getJSON(obj);
+//            ArrayList<Double> latitude= wayPoints.getWayPointLatitude(wayPoints);
+//            Log.v(TAG,"TOTALWaypoints"+latitude);
+//
+//            mRoutes.getJSON(obj);
+//
+//
+//            Log.d("My App", obj.toString());
+//
+//        } catch (Throwable t) {
+//            Log.e("My App", "Could not parse malformed JSON: \"" + t + "\"");
+//        }
+////        Intent intent= new Intent(this, PrintJSON.class);
+////        String mJSON=output;
+////        intent.putExtra("JSON_OUTPUT",mJSON);
+////        startActivity(intent);
+//    }
+
+    public static void callNecessaryMethodsFromHere(String output){
+        Log.v(TAG,"SHIT"+output);
+        Log.v(TAG,"OUTPUTJSON"+output);
+        try {
+            waypoints wayPoints= new waypoints();
+            JSONObject obj = new JSONObject(output);
+            wayPoints.getJSON(obj);
+            ArrayList<Double> latitude= wayPoints.getWayPointLatitude(wayPoints);
+            Log.v(TAG,"TOTALWaypoints"+latitude);
+
+            routes mRoutes = new routes();
+            mRoutes.getJSON(obj);
+            ArrayList<String> instructions= new ArrayList<>();
+            instructions= mRoutes.getEachStepInstruction(mRoutes);
+            ArrayList<Double> locations;
+            locations= mRoutes.getCoordinatesForManeuver(mRoutes);
+            Log.v(TAG,"Maneuver locations "+locations);
+            Log.d("My App", obj.toString());
+
+        } catch (Throwable t) {
+            Log.e("My App", "Could not parse malformed JSON: \"" + t + "\"");
+        }
+    }
+
+
 }
