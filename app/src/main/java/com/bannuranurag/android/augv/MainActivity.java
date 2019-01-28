@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             instructions= mRoutes.getEachStepInstruction(mRoutes);
             ArrayList<Double> locations;
             locations= mRoutes.getCoordinatesForManeuver(mRoutes);
-            Log.v(TAG,"Maneuver locations "+locations);
+            Log.v(TAG,"Maneuver locations "+locations);         //[long,lat]
             Log.d("My App", obj.toString());
 
         } catch (Throwable t) {
