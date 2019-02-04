@@ -13,6 +13,8 @@ import com.bannuranurag.android.augv.SharingDataLocation.DataParsing;
 import com.bannuranurag.android.augv.SharingDataLocation.JSONTASk;
 import com.bannuranurag.android.augv.SharingDataLocation.routes;
 import com.bannuranurag.android.augv.SharingDataLocation.waypoints;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "DirectionsActivity";
     private NavigationMapRoute navigationMapRoute;
     private Button button;
+    private static DatabaseReference mDatabase;
+    private static String mFinalRoute;
 
 
     @Override
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //jsontaSk.delegate=this;
 
     }
 
@@ -244,44 +247,61 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-//    @Override
-//    public void processFinish(String output) {
-//        Log.v(TAG,"OUTPUTJSON"+output);
-//        try {
-//
-//            JSONObject obj = new JSONObject(output);
-//            wayPoints.getJSON(obj);
-//            ArrayList<Double> latitude= wayPoints.getWayPointLatitude(wayPoints);
-//            Log.v(TAG,"TOTALWaypoints"+latitude);
-//
-//            mRoutes.getJSON(obj);
-//
-//
-//            Log.d("My App", obj.toString());
-//
-//        } catch (Throwable t) {
-//            Log.e("My App", "Could not parse malformed JSON: \"" + t + "\"");
-//        }
-////        Intent intent= new Intent(this, PrintJSON.class);
-////        String mJSON=output;
-////        intent.putExtra("JSON_OUTPUT",mJSON);
-////        startActivity(intent);
-//    }
 
     public static void callNecessaryMethodsFromHere(String output){
-        Log.v(TAG,"SHIT"+output);
-        Log.v(TAG,"OUTPUTJSON"+output);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         try {
-            waypoints wayPoints= new waypoints();
+
+
             JSONObject obj = new JSONObject(output);
-            wayPoints.getJSON(obj);
+
+            waypoints wayPoints= new waypoints();       //These two lines
+            routes mRoutes = new routes();                //  are important object declarations*/
+
+            wayPoints.getJSON(obj);         //These two lines ensure
+            mRoutes.getJSON(obj);           //ensure that the two classes have the JSOn response to work on
+
+            String code= wayPoints.getCode(wayPoints);  //To ensure that the api call code is logged in JSON tree
+            String uuid=wayPoints.getUUID(wayPoints);   //To ensure the UUID is logged in the JSON tree.
+            mDatabase.child("json").child("code").setValue(code); //To ensure that data is sent to cloud
+            mDatabase.child("json").child("uuid").setValue(uuid);
+
+            Double totalDistance= mRoutes.getTotalRouteDistance(mRoutes);     //Getting total distance of the route
+            mDatabase.child("json").child("routes").child("legs").child("distance").setValue(totalDistance);   //Uploading the total distance on the cloud
+
+            int numberofLegs=mRoutes.getNumberOfLegs();
+            int numberOfSteps=mRoutes.getNumberOfSteps(mRoutes);
+
+            ArrayList<Double> maneBearings = new ArrayList<>();   //Get the Before After bearings of routes
+            maneBearings=mRoutes.getManeuverBearings(mRoutes);
+
+            ArrayList<Double> manLngLat= new ArrayList<>();     //Get Long and Lat of each maneuver step
+            manLngLat=mRoutes.getCoordinatesForManeuver(mRoutes);
+
+            ArrayList<String> instructions= new ArrayList<>();      //Get instruction for each step
+            instructions= mRoutes.getEachStepInstruction(mRoutes);
+
+            ArrayList<Double> distance = new ArrayList<>();
+            distance=mRoutes.getIndividualStepDistance(mRoutes);
+
+
+            for(int i=0;i<numberofLegs;i++){
+                mDatabase.child("json").child("routes").child("legs").child("TotalSteps").setValue(numberOfSteps);
+                mDatabase.child("json").child("routes").child("legs").child("ManeuverBearings").setValue(maneBearings);
+                mDatabase.child("json").child("routes").child("legs").child("ManeuverLongLat").setValue(manLngLat);
+                mDatabase.child("json").child("routes").child("legs").child("Instructions").setValue(instructions);
+                mDatabase.child("json").child("routes").child("legs").child("IndividualStepDistance").setValue(distance);
+            }
+
+
+
+
             ArrayList<Double> latitude= wayPoints.getWayPointLatitude(wayPoints);
             Log.v(TAG,"TOTALWaypoints"+latitude);
 
-            routes mRoutes = new routes();
-            mRoutes.getJSON(obj);
-            ArrayList<String> instructions= new ArrayList<>();
-            instructions= mRoutes.getEachStepInstruction(mRoutes);
+
+
             ArrayList<Double> locations;
             locations= mRoutes.getCoordinatesForManeuver(mRoutes);
             Log.v(TAG,"Maneuver locations "+locations);         //[long,lat]

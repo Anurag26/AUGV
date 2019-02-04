@@ -3,4 +3,5 @@
     <string name="access_token">pk.eyJ1IjoiYW51cmFnYmFubnVyIiwiYSI6ImNqcXA5M2xsbzAxZGo0MXQxdTY1MWtxbWkifQ.CC_5wINWsae-9hwHIQ304g</string>
     <string name="start_navigating">Start Navigating</string>
     <string name="json_sample_text">JSON</string>
+    <string name="title_activity_bluetooth">BluetoothActivity</string>
 </resources>

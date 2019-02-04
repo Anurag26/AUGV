@@ -107,5 +107,25 @@ public class waypoints {
         return names;
     }
 
+    public String getCode(waypoints waypoints){
+        String code= null;
+        try {
+            code = jsonResponse.getString("code");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
+    public String getUUID(waypoints waypoints){
+        String uuid= null;
+        try {
+            uuid = jsonResponse.getString("uuid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return uuid;
+    }
+
 
 }
