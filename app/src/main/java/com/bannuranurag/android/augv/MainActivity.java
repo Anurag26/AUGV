@@ -296,17 +296,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-            ArrayList<Double> latitude= wayPoints.getWayPointLatitude(wayPoints);
-            Log.v(TAG,"TOTALWaypoints"+latitude);
-
-
-
-            ArrayList<Double> locations;
-            locations= mRoutes.getCoordinatesForManeuver(mRoutes);
-            Log.v(TAG,"Maneuver locations "+locations);         //[long,lat]
-            Log.d("My App", obj.toString());
-
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + t + "\"");
         }
