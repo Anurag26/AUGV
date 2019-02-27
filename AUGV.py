@@ -6,7 +6,6 @@
 
 from firebase import firebase 
 import time
-import RouteParser
 from datetime import datetime 
 import schedule 
 i = 5 
