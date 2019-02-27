@@ -16,6 +16,7 @@ def job():
     #print(result,str(datetime.now()))
     return result
 
+
 def f():
     
     schedule.every(1).seconds.do(job)
@@ -45,6 +46,10 @@ def compareUUID(x):
 def parseNewRouteData():
     print("Parsing New Route")
         
-f()
-  
-
+def main():
+    print("This is main function")
+    print("Parse the route first time")
+    f()
+    
+if __name__ == "__main__":
+    main()
