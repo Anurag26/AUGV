@@ -1,0 +1,5 @@
+sudo pip3 install python-firebase
+pip3 import schedule
+in desktop:
+export FLASK_APP=flas.py
+sudo -E flask run --host=0.0.0.0 --port 80
