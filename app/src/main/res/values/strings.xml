@@ -4,4 +4,6 @@
     <string name="start_navigating">Start Navigating</string>
     <string name="json_sample_text">JSON</string>
     <string name="title_activity_bluetooth">BluetoothActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="locate_me">Locate Me</string>
 </resources>
