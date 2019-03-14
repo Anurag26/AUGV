@@ -1,6 +1,7 @@
 package com.bannuranurag.android.augv;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,10 +37,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.maps.android.PolyUtil;
 import com.google.maps.android.SphericalUtil;
 
 import org.json.JSONObject;
@@ -48,7 +51,7 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     GeoDataClient geoDataClient;
     PlaceDetectionClient placeDetectionClient;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -101,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         placeAutocompleteFragment=(PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-        placeAutocompleteFragment.setHint("Search destination for rover.");
+        placeAutocompleteFragment.setHint("Or search destination for rover.");
 
         placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(Place place) {     //This is when the User searches for a place
                 startNav.setVisibility(View.VISIBLE);
                 mMap.clear();
                 startNav.setEnabled(true);
@@ -259,8 +262,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude())).title(String.valueOf(mLastKnownLocation.getLatitude())+","+String.valueOf(mLastKnownLocation.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                 @Override
-                                public void onMapClick(LatLng latLng) {
+                                public void onMapClick(LatLng latLng) {     //This is for a pin dropped on a map
                                     onMapClickLatLng=latLng;
+                                    //PolylineOptions options = displayDirections();
                                     map.clear();
                                     map.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude())).title(String.valueOf(mLastKnownLocation.getLatitude())+","+String.valueOf(mLastKnownLocation.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                                     map.addCircle(new CircleOptions().center(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude())).radius(5).strokeColor(0xFFFFFFFF).fillColor(0xFF3367D6));
@@ -309,6 +313,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int total_steps = googleRoute.getTotalNumberOfSteps();
             int numberofLegs=googleRoute.getNumberOfLegs();
             ArrayList<String> instructions = googleRoute.getInstructions();
+            displayDirections(polylines);
 
 
             databaseReference.child("json").child("code").setValue(status_code); //To ensure that data is sent to cloud
@@ -337,7 +342,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
            googleDirectionURL.append("&origin="+originLat+","+originLong);
            googleDirectionURL.append("&destination="+destLat+","+destLong);
            googleDirectionURL.append("&mode=driving");
-           googleDirectionURL.append("&key=AIzaSyBet3WGr4ykNfOK6QlP631NnZmQDvbnKxM");
+           googleDirectionURL.append("&key=AIzaSyBKYGPy1FmXcYF29Gu_V5zwsPijGSwR9Rw");
            LatLng destLatLng= new LatLng(Double.valueOf(destLat),Double.valueOf(destLong));
            LatLng srcLatLng= new LatLng(Double.valueOf(originLat),Double.valueOf(originLong));
            getBearings(destLatLng,srcLatLng);
@@ -350,6 +355,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        // Log.v(TAG,"Bearings are:"+bearings);
     }
 
+
+    private static void displayDirections(ArrayList<String> options){
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        String  polyLineArray[] =  options.toArray(new String[options.size()]);
+
+        try{
+            for(int i=0;i<options.size();i++){
+                PolylineOptions options1 = new PolylineOptions();
+                options1.addAll(PolyUtil.decode(polyLineArray[i]));
+                options1.color(Color.RED);
+                options1.width(12);
+                mMap.addPolyline(options1);
+            }
+            //int total_polylines=databaseReference.child("json").child("routes").child("legs").child("polylines").size
+        }
+        catch (Exception e){
+            Log.v(TAG,"DisplayDirections"+e);
+        }
+    }
 
 
 }
