@@ -4,7 +4,7 @@ Final year project of an UGV.
 Contains scripts to run gps, magetometer and GSM. The mobile application using GMAPS and MAPBOX is also included. 
 
 ```
-Copyright 2018 Anurag Sanjay Bannur
+Copyright 2019 Anurag Sanjay Bannur
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
