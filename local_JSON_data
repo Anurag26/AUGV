@@ -1,0 +1,49 @@
+{
+  "json": {
+    "code": "OK",
+    "polyline": "u~vmAc~xxM@wBEG]Ag@@@w@j@uAT?R?\\Lu@j@?DJXb@p@d@d@l@d@n@X",
+    "routes": {
+      "legs": {
+        "IndividualStepDistance": [
+          111,
+          83,
+          42,
+          184
+        ],
+        "Instructions": [
+          "Head <b>east</b><div style=\"font-size:0.9em\">Restricted usage road</div>",
+          "Turn <b>right</b> at Jamcracker Software Technologies Pvt. Ltd. toward <b>Salarpuria Greenage Internal Rd</b><div style=\"font-size:0.9em\">Restricted usage road</div>",
+          "Turn <b>right</b> at QUEST ENTREPRENEURSHIP DEVELOPMENT CHARITABLE TRUST onto <b>Salarpuria Greenage Internal Rd</b><div style=\"font-size:0.9em\">Restricted usage road</div>",
+          "Turn <b>right</b> at Sri Om Shakthi Chats &amp; Fast Food to stay on <b>Salarpuria Greenage Internal Rd</b><div style=\"font-size:0.9em\">Restricted usage road</div>"
+        ],
+        "ManeuverBearings": [
+          58.71167022707616,
+          108.84432386722392,
+          -169.48968008784217,
+          -119.43955396494252
+        ],
+        "ManeuverLongLat": [
+          12.9023453,
+          77.62929799999999,
+          12.9027249,
+          77.62993879999999,
+          12.9024889,
+          77.6306482,
+          12.902129,
+          77.6305797,
+          12.9014997,
+          77.6294358
+        ],
+        "TotalSteps": 4,
+        "distance": 420,
+        "polylines": [
+          "u~vmAc~xxMBcB?M?CAAAC?AAAA?EAI?M?]@I?",
+          "_awmAcbyxM@q@?E@E@Cf@kA",
+          "q_wmAqfyxM@?B?D?H?JAF@JBPH",
+          "i}vmAcfyxMq@d@CD?DJXb@p@d@d@l@d@n@X"
+        ]
+      }
+    },
+    "uuid": "cjst478dg08n83xryvfmuzb8p"
+  }
+}
