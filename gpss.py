@@ -1,13 +1,11 @@
-
 import time
+import multiprocessin
 import serial
 import string
 import pynmea2
 import RPi.GPIO as gpio
-def hello_sexy():
-    print("Hello")
-#counter =  0 
-def gpsloatlong():
+ 
+def gpslatlong():
 
     while 1:
 
@@ -16,7 +14,6 @@ def gpsloatlong():
         port = "/dev/ttyAMA0"
 
         ser = serial.Serial(port, baudrate= 9600, timeout = 0.5)  
-  #  print "hello world"
 
         try:
             data = ser.readline()
@@ -40,4 +37,23 @@ def gpsloatlong():
             #print "not working"  
 
 
-gpsloatlong()
+def multi_process():
+    
+    # Start foo as a process
+    p = multiprocessing.Process(gpslatlong())
+    #print(p)
+    print("h0")
+    p.start()
+    print("h1")
+
+    # Wait 10 seconds for foo
+    time.sleep(10)
+    print("h2")
+
+    # Terminate foo
+    p.terminate()
+    print("h3")
+
+    # Cleanup
+multi_process(15)
+
