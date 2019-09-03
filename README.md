@@ -33,7 +33,7 @@ The UGV used the Raspberrypi 3b+ as the main processing unit. The peripherals at
 
 
 ## Contact
-If interested in knowing more about this project or you would like to read the paper written on the same please contact one of the contributors.
+If you are interested in knowing more about this project or would like to read the paper written on the same please contact one of the contributors.
 
 
 ## Licensing
