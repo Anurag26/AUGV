@@ -32,6 +32,9 @@ The UGV used the Raspberrypi 3b+ as the main processing unit. The peripherals at
 * As the UGV was to be controlled remotely a web server was set up on pi and a detailed explanation is provided here https://medium.com/@bannuranurag/controlling-raspberry-pi-using-an-android-application-c7334625e513
 
 
+## Contact
+If interested in knowing more about this project or you would like to read the paper written on the same please contact one of the contributors.
+
 
 ## Licensing
 ```
