@@ -1,5 +1,5 @@
-# Autonomous Unmanned Ground Vehicle
-**The AUGV repository contains codebase for the Android application and the scripts needed to run and control the UGV. This was the senior year project during the Undergraduate Engineering course showcasing the technical and soft skills gained over four years.**
+# Autonomous Un-manned Ground Vehicle
+**The AUGV repository contains codebase for the Android application and the scripts needed to run and control the UGV. This was the senior year project during the undergraduate engineering course showcasing the technical and soft skills gained over four years.**
 
 
 ## Android Application
@@ -33,7 +33,7 @@ The UGV used the Raspberrypi 3b+ as the main processing unit. The peripherals at
 
 
 ## Contact
-If you are interested in knowing more about this project or would like to read the paper written on the same please contact one of the contributors.
+If you are interested in knowing more about this project or would like to read the paper written on the same please contact me @ bannuranurag@gmail.com
 
 
 ## Licensing
